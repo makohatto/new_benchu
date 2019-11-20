@@ -5,8 +5,9 @@ session_start();
 $db['host'] = "localhost"; //DBサーバのurl
 $db['user'] = "hogeUser"; //ユーザー名
 $db['pass'] = "hogehoge"; //ユーザー名のパスワード
-$db['dbname'] = "loginManaagement"; //データベース名
+$db['dbname'] = "loginManagement"; //データベース名
 
+//$errorMassage初期化
 $errorMassage = "";
 
 if(issst($_POST["login"])) {
@@ -18,7 +19,9 @@ if(issst($_POST["login"])) {
   if(!empty($_POST["userid"]) && !empty($_POST["password"])){
     $userid=$_POST["userid"];
 
+    //ユーザーIDとパスワードが入力されていたら認証する
     $dsn = sprintf('mysql: host=%s; dbname=%s; charset=utf8', $db['host'], $db['dbname']);
+
     //eroor処理
     try{
       $pdo = new PDO($dsn, $db['user'], $db['pass'], array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));
@@ -67,17 +70,22 @@ if(issst($_POST["login"])) {
      <h1>ログイン画面!</h1>
      <form id="loginForm" name"loginForm" action="" method="post">
        <fieldset>
-       <div><font color="#ff0000"<?php  echo htmlspecialchars($errorMassage, ENT_QUOTES); ?></font></div>
-
-       </div>
-       <legend>ログインフォーム</legend>
-       <label for="password">パスワード</label><input type="password" name="password" value="">
-       <label for="userid">ユーザーID</label><input type="text" id="userid" name="userid" placeholder="ユーザーIDを入力"value="<?php if(!empty($_POST["userid"])) {echo htmlspecialchars($_POST["userid"], ENT_QUOTES);} ?>">
-       <br>
-       <input type="submit" id="login" name="login" value="ログイン">
+         <legend>ログインフォーム</legend>
+         <div><font color="#ff0000"<?php echo htmlspecialchars($errorMassage, ENT_QUOTES); ?></font></div>
+         <label for="userid">ユーザーID</label><input type="text" id="userid" name="userid" placeholder="ユーザーIDを入力"value="<?php if(!empty($_POST["userid"])) {echo htmlspecialchars($_POST["userid"], ENT_QUOTES);} ?>">
+         <br>
+         <label for="password">パスワード</label><input type="password" name="password" value="" placeholder="パスワードを入力">
+         <br>
+         <input type="submit" id="login" name="login" value="ログイン">
        </fieldset>
      </form>
      <br>
+     <form action="signup.php">
+       <fieldset>
+         <legend>新規登録フォーム</legend>
+         <input type="submit" value="新規登録">
+       </fieldset>
+     </form>
      <!-- Optional JavaScript -->
      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
